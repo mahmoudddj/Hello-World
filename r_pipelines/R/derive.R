@@ -77,6 +77,7 @@ sample_alterations <- function(t) {
     drv <- c(drv, t$fusions$Tumor_Sample_Barcode[t$fusions$Hugo_Symbol %in% c("ALK", "ROS1")])
   s$driver <- s$sample %in% drv
   s$covers_both <- Reduce(`|`, lapply(PANELS_BOTH, function(p) startsWith(toupper(s$cpt_seq_assay_id), p)))
+  s$covers_both[is.na(s$covers_both)] <- FALSE          # unknown assay: cannot assert coverage
   s
 }
 

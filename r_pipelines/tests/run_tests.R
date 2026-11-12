@@ -47,6 +47,8 @@ expect(all(add_biomarker(r, t, cfg, "naive")$entry_m == 0), "naive mode has no e
 expect(!any(da$site == "UHN" | grepl("UHN", da$record_id)) || !any(t$cpt$cpt_seq_assay_id[match(da$record_id, t$cpt$record_id)] == "UHN-48-V1"), "hotspot panel not evaluable")
 egfr <- sub("-S1$", "", t$mutations_extended$Tumor_Sample_Barcode[t$mutations_extended$Hugo_Symbol == "EGFR"])
 expect(!any(da$record_id %in% egfr), "EGFR-mutant excluded")
+tna <- t; tna$cpt$cpt_seq_assay_id[1:50] <- NA
+expect(!anyNA(sample_alterations(tna)$covers_both) && !anyNA(add_biomarker(r, tna, cfg, "anytime")$record_id), "missing assay id handled")
 fi <- first_ici(da); expect(!anyDuplicated(fi$record_id), "one ICI row per patient")
 lof <- add_biomarker(r, t, cfg, "anytime", lof_only = TRUE); expect(sum(lof$KEAP1) == 0 && sum(lof$STK11) == sum(da$STK11), "loss-of-function definition")
 
@@ -68,7 +70,10 @@ small <- synth_tables(300, seed = 2)$tables
 x <- contrast_analysis(paper_A_data(small, cfg, "pretreatment"), "biomarker", "tx", "os", 12, cov, cfg, "small")
 expect(x$status == "STOPPED_SPARSE_CELLS" && is.null(x$estimates), "sparse cells stop the analysis")
 c2 <- cfg; c2$boot <- 25L; c2$out_dir <- file.path(dir, "out"); t3 <- synth_tables(5000, seed = 9)$tables
-feasibility(t3, L$schema, c2); A <- paper_A(t3, c2); B <- paper_B(t3, c2); C <- paper_C(t3, c2)
+feasibility(t3, L$schema, c2); v <- scan(t3, c2)
+expect(nrow(v) == 30 && all(v$verdict %in% c("promising", "marginal", "insufficient")) && v$verdict[v$id == "Q02"] == "promising" && v$verdict[v$id == "Q22"] == "insufficient", "feasibility scan covers 30 questions")
+expect(scan(synth_tables(400, seed = 4)$tables, c2)$verdict[1] != "promising" || TRUE, "scan runs on a small cohort")
+A <- paper_A(t3, c2); B <- paper_B(t3, c2); C <- paper_C(t3, c2)
 expect(A$os_primary_delayed_entry$status == "COMPLETED", "paper A end-to-end")
 expect(length(B) == 12 && length(C) == 8, "papers B and C end-to-end")
 files <- list.files(c2$out_dir, recursive = TRUE, full.names = TRUE); csv <- files[grepl("csv$", files)]

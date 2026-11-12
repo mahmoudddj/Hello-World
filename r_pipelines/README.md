@@ -2,13 +2,35 @@
 
 Runs entirely on your PC. Reads the GENIE BPC NSCLC v2.0-public files, writes **aggregate tables and figures only** (counts below 10 are blanked). Needs R ≥ 4.1 and the `survival` package (part of standard R installations). No other packages, no internet, no GPU.
 
+## Files to download (GENIE BPC NSCLC v2.0-public, Synapse project syn27056172)
+| File | Synapse ID | Needed for |
+|---|---|---|
+| `patient_level_dataset.csv` | syn30358096 | required |
+| `cancer_level_dataset_index.csv` | syn30358090 | required |
+| `regimen_cancer_level_dataset.csv` | syn30358097 | required |
+| `pathology_report_level_dataset.csv` | syn30358095 | required (PD-L1) |
+| `cancer_panel_test_level_dataset.csv` | syn30358092 | required (NGS samples, panels, report timing) |
+| `data_mutations_extended.txt` | syn30358120 | required |
+| `data_CNA.txt` | syn30358099 | recommended (STK11/KEAP1 deletions) |
+| `data_fusions.txt` | syn30358105 | recommended (ALK/ROS1/RET) |
+| `cancer_level_dataset_non_index.csv` | syn30358091 | optional, not used yet |
+| `imaging_level_dataset.csv` | syn30358093 | optional, for later imaging-based questions |
+| `med_onc_note_level_dataset.csv` | syn30358094 | optional, for later questions |
+| variable synopsis / Analytic Data Guide | syn30557312 / syn30557304 | documentation, no patient data; useful to share with me |
+
+IDs are taken from the public `genieBPC` R package. In R you can fetch everything at once after `genieBPC::set_synapse_credentials()`:
+`genieBPC::pull_data_synapse("NSCLC", "v2.0-public", download_location = "D:/secure/genie")`.
+
 ## Steps
-1. Put the release files in one folder (any sub-folders are fine): `patient_level_dataset.csv`, `cancer_level_dataset_index.csv`, `regimen_cancer_level_dataset.csv`, `pathology_report_level_dataset.csv`, `cancer_panel_test_level_dataset.csv`, `data_mutations_extended.txt`, and if available `data_CNA.txt`, `data_fusions.txt`.
+1. Put the downloaded files in one folder (sub-folders are fine).
 2. Open a terminal in this folder and set the paths (Windows PowerShell: `$env:GENIE_BPC_DATA_DIR="D:\secure\genie"`; Linux/macOS: `export GENIE_BPC_DATA_DIR=/secure/genie`). Optionally set `GENIE_BPC_OUT_DIR` (default `results`).
-3. `Rscript run_all.R test` — software checks on artificial data (about 1–2 minutes; should end with "46 checks passed").
-4. `Rscript run_all.R feasibility` — counts only, no outcome modelling. **Send me these `00_*.csv` files first**; they decide which papers are viable.
-5. `Rscript run_all.R A` (then `B`, `C`, or `all`). With 1,000 bootstrap replicates expect roughly 10–40 minutes per paper.
+3. `Rscript run_all.R test` — software checks on artificial data (1–2 minutes; should end with "49 checks passed").
+4. `Rscript run_all.R feasibility` — counts only, no outcome modelling, a minute or two. It writes the `00_*.csv` files plus the 30-question scan: **`F_verdicts.csv`** (one line per candidate paper: promising / marginal / insufficient) and `F_cells.csv` (group sizes and event counts, anything below 10 blanked). **Send me these files first.**
+5. `Rscript run_all.R A` (then `B`, `C`, or `all`) for the three questions that already have full pipelines. With 1,000 bootstrap replicates expect roughly 10–40 minutes per paper.
 6. Look through the `results` folder before sharing it. It should contain only CSV/PNG/TXT files with aggregate numbers.
+
+### How to read `F_verdicts.csv`
+"promising" = every key comparison group has at least 50 patients and 30 events; "marginal" = at least 20 and 10; otherwise "insufficient". This is a sample-size screen only. `novelty_prior_unverified` is my rough expectation before a literature check, not a finding. A "promising" row still needs that check and a protocol before any outcome analysis.
 
 ## What each step produces
 | Step | Question | Main files |
