@@ -1,0 +1,8 @@
+step,n
+Patients with an index NSCLC diagnosis,3726
+Advanced disease (stage IV at diagnosis or later distant metastasis),3726
+Received >=1 systemic regimen for advanced disease,3726
+"First-line regimen is anti-PD-(L)1 monotherapy or anti-PD-(L)1 + platinum chemotherapy (non-trial, non-investigational)",2258
+STK11 and KEAP1 evaluable on a covering NGS panel reported on/before treatment start,1645
+No sensitising EGFR mutation or ALK/ROS1 fusion detected,1564
+Valid overall-survival follow-up after time zero,1563

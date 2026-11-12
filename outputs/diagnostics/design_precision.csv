@@ -1,0 +1,9 @@
+scenario,horizon_months,mc_sd_interaction_months,ci_half_width_months,detectable_interaction_80pct_power_months,mean_altered_in_chemo_arm,usable_reps
+A: 150 mono + 40 chemo-IO (pessimistic public-release guess),12,1.98,3.88,5.54,10.0,300
+A: 150 mono + 40 chemo-IO (pessimistic public-release guess),24,4.45,8.71,12.45,10.0,300
+B: 250 mono + 100 chemo-IO,12,1.29,2.53,3.62,25.2,300
+B: 250 mono + 100 chemo-IO,24,2.87,5.62,8.03,25.2,300
+C: 400 mono + 400 chemo-IO (larger consortium-scale guess),12,0.71,1.39,1.99,101.8,300
+C: 400 mono + 400 chemo-IO (larger consortium-scale guess),24,1.56,3.06,4.37,101.8,300
+D: 1000 mono + 1000 chemo-IO,12,0.47,0.92,1.32,256.1,300
+D: 1000 mono + 1000 chemo-IO,24,1.01,1.98,2.82,256.1,300

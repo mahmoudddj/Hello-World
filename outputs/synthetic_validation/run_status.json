@@ -1,0 +1,14 @@
+{
+  "label": "SYNTHETIC DATA - pipeline validation only, not study results",
+  "gate_pass": true,
+  "reason": "all four treatment x biomarker cells meet the pre-specified minimum",
+  "n_primary": 1563,
+  "synthetic_truth": {
+    "drmst12_m0": 0.5802544285067122,
+    "drmst12_m1": 1.931292418974033,
+    "int_rmst12": 1.3510379904673209,
+    "drmst24_m0": 1.6218116080717149,
+    "drmst24_m1": 4.6622759485698255,
+    "int_rmst24": 3.0404643404981107
+  }
+}

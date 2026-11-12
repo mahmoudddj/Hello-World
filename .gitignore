@@ -1,0 +1,13 @@
+# Patient-level GENIE BPC data must never be committed
+data/
+*.rda
+*_dataset*.csv
+data_mutations_extended*
+data_CNA*
+data_fusions*
+.synapseConfig
+.env
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
