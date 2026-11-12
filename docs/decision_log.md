@@ -12,3 +12,7 @@
 | 9 | 2026-11-12 | Missing PD-L1 handled by an explicit "unknown" category in the primary analysis | Expected high, era-dependent missingness; MI planned as sensitivity |
 | 10 | 2026-11-12 | No pivot to alternative questions without researcher approval | Required by the brief |
 | 11 | 2026-11-12 | Second agent's handoff archive opened; it contains only the shared brief | Supplied by the researcher; no cross-agent work product seen |
+| 12 | 2026-11-12 | Isolation ended: researcher supplied the Codex R pipeline and asked for a review | Explicit researcher authorisation; findings in `codex_pipeline_review.md` |
+| 13 | 2026-11-12 | Patient-level data stay on the researcher's PC; analyses delivered as R pipelines producing aggregate output | Researcher's decision on data handling |
+| 14 | 2026-11-12 | Alternatives A, B, C implemented in R (`r_pipelines/`) ahead of formal approval of a pivot; feasibility counts decide which proceed | Researcher asked for pipelines for all three |
+| 15 | 2026-11-12 | For A–C the primary NGS handling is delayed entry at report date; pretreatment-only is sensitivity | Requiring pretreatment NGS would discard most first-line chemotherapy patients in a 2014–2017 sequencing cohort |
